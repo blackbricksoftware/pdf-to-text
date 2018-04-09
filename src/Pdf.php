@@ -16,7 +16,7 @@ class Pdf
 
     public function __construct(string $binPath = null)
     {
-        $this->binPath = $binPath ?? '/usr/bin/pdftotext';
+        $this->binPath = is_null($binPath) ? '/usr/bin/pdftotext' : $binPath;
     }
 
     public function setPdf(string $pdf) : self
