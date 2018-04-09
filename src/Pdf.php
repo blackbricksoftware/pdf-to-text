@@ -14,12 +14,12 @@ class Pdf
 
     protected $options = [];
 
-    public function __construct(string $binPath = null)
+    public function __construct($binPath = null)
     {
         $this->binPath = is_null($binPath) ? '/usr/bin/pdftotext' : $binPath;
     }
 
-    public function setPdf(string $pdf) 
+    public function setPdf($pdf) 
     {
         if (!is_readable($pdf)) {
             throw new PdfNotFound(sprintf('could not find or read pdf `%s`', $pdf));
@@ -30,9 +30,9 @@ class Pdf
         return $this;
     }
 
-    public function setOptions(array $options) 
+    public function setOptions($options) 
     {
-        $mapper = function (string $content)  {
+        $mapper = function ($content)  {
             $content = trim($content);
             if ('-' !== (is_null($content[0]) ? '' : $content[0])) {
                 $content = '-'.$content;
@@ -41,7 +41,7 @@ class Pdf
             return explode(' ', $content, 2);
         };
 
-        $reducer = function (array $carry, array $option)  {
+        $reducer = function ($carry, $option)  {
             return array_merge($carry, $option);
         };
 
@@ -61,7 +61,7 @@ class Pdf
         return trim($process->getOutput(), " \t\n\r\0\x0B\x0C");
     }
 
-    public static function getText(string $pdf, string $binPath = null, array $options = []) 
+    public static function getText($pdf, $binPath = null, $options = []) 
     {
         return (new static($binPath))
             ->setOptions($options)
